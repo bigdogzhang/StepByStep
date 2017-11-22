@@ -1,2 +1,2 @@
 # StepByStep
-Add notes step by step
+目的：通过不断的积累，尽可能提高重复性工作的效率。  
