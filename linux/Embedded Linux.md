@@ -50,6 +50,8 @@ Another issue with embedded Linux is that it needs significant CPU resources, pe
 
 There are larger RTOS products that exhibit some of the features of a GPOS such as dynamic loading, filesystems, networking, GUI (for example, in QNX), and many RTOS provide a POSIX API (usually secondary to their native real-time API) for example VxWorks and again QNX, so that a great deal of code developed for Linux and Unix can be ported relatively easily. These larger more comprehensive RTOS products remain scalable, so that functionality not required is not included. Linux in comparison has far more limited scalability.
 
+OS的设计方案是基于OS的应用场景的，GPOS面向一般应用程序，不需要很强的实时性需求，但是却对广泛的硬件支持，应用程序的易开发性要求很高，所以GPOS往往会对底层进行很多的封装，尽可能抽象API，使应用程序脱离底层，更加容易开发。应用程序与底层离得越远，实时性就越差，因为底层事件到达应用程序需要花费的时间就越长。同时，GPOS为了增加用户体验，通常会采取更复杂的资源分配策略，比如，基于时间片轮询的调度方式使用CPU，虚拟内存等。这些都会以牺牲实时性为代价的，因为即使事件到达了应用程序，也未必能及时处理，即使开始处理，也可能随时被其他处理打断，事件什么时候开始处理，什么时候结束，是不可预知的（deterministic behaviour）。而RTOS则不同，它为了满足实时性要求，会使底层与应用程序尽可能接近，即：底层发生的事件，可以几乎无延时的传达到应用程序。同时，采用抢占式调度方法，保证事件可以及时被处理，且处理过程中不会被打断。通过测量事件处理函数，基本可以确定事件的响应时间，结果是可以完全可以测量的（scalable）。RTOS为了支持更多的硬件体系架构，增加应用程序的易开发性，也会增加封装，提供更抽象的API，设计更多的功能，但是这些都是与实时性相冲突的，理论上说，OS越简单实时性越高（没有OS的实时性应该是最高的），OS越抽象实时性越差。如何在支持更多硬件架构，和提供丰富易用功能的同时，尽可能保证实时性，是RTOS的设计难点，也是RTOS竞争的核心所在。当然，稳定性，第三方软件支持，价格，售后服务和技术支持，体积可裁剪性，规格认证等也是相当重要的因素。
+
 # Linux的Real-Time解决方案
 
 <https://www.linux.org/threads/achieving-realtime-linux.11667/#post-41145>
